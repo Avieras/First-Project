@@ -61,7 +61,7 @@ def subtract_number():
 def update_count():
     count_label.config(text=f"Total items: {checklist.size()}")
 
-    
+
 
 #Creates the main window
 window = tk.Tk()
@@ -70,76 +70,67 @@ window.title("Checklist")
 #Window size
 window.geometry("500x500")
 
-
 #Phase 2
 
 # Label and entry for adding items
-label = tk.Label(window, text="Enter wished Item:")
-label.pack()
+label = tk.Label(window, text="Enter wished Item:")  # Create a label for instructions
+label.pack()  # Display the label in the window
 
-entry = tk.Entry(window)
-entry.pack()
+entry = tk.Entry(window)  # Create an entry field for user input
+entry.pack()  # Display the entry field in the window
 
 #Design of a button
-button = ttk.Button(window, text="Search", style="Custom.TButton")
-button.pack()
+button = ttk.Button(window, text="Search", style="Custom.TButton")  # Create a styled button
+button.pack()  # Display the button in the window
 style = ttk.Style()
-style.configure("Custom.TButton", foreground="black", font=("Arial", 12))
+style.configure("Custom.TButton", foreground="black", font=("Arial", 12))  # Configure the style of the button
 #_______________________
 
-
-
 #Number box
-frame = tk.Frame(window)
-frame.pack(padx=10, pady=10)
+frame = tk.Frame(window)  # Create a frame for layout management
+frame.pack(padx=10, pady=10)  # Display the frame with padding
 
-number_frame = tk.Frame(window)
-number_frame.pack(padx=10, pady=20,side="bottom")
+check_box = tk.Listbox(frame, width=5)  # Create a listbox for displaying numbers
+check_box.pack(side=tk.LEFT, fill=tk.Y)  # Display the listbox within the frame
 
-number_label = tk.Label(number_frame, text="Number:")
-number_label.pack()
+number_frame = tk.Frame(window)  # Create a frame for number-related elements
+number_frame.pack(padx=10, pady=20, side="bottom")  # Display the frame with padding at the bottom
 
-number_box = tk.Entry(number_frame, width=10)
-number_box.pack()
+number_label = tk.Label(number_frame, text="Number:")  # Create a label for number entry
+number_label.pack()  # Display the label in the number frame
 
-check_box = tk.Listbox(frame, width=5)
-check_box.pack(side=tk.LEFT, fill=tk.Y)
-
+number_box = tk.Entry(number_frame, width=10)  # Create an entry field for number input
+number_box.pack()  # Display the entry field in the number frame
 
 #Checklist
-checklist = tk.Listbox(frame, width=20)
-checklist.pack(side=tk.LEFT, fill=tk.Y)
+checklist = tk.Listbox(frame, width=20)  # Create a listbox for displaying checklist items
+checklist.pack(side=tk.LEFT, fill=tk.Y)  # Display the listbox within the frame
 
 #Scrollbar for checklist
-scrollbar = tk.Scrollbar(frame, orient=tk.VERTICAL)
-scrollbar.config(command=checklist.yview)
-scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
-checklist.config(yscrollcommand=scrollbar.set)
+scrollbar = tk.Scrollbar(frame, orient=tk.VERTICAL)  # Create a vertical scrollbar for the checklist
+scrollbar.config(command=checklist.yview)  # Connect scrollbar to checklist
+scrollbar.pack(side=tk.RIGHT, fill=tk.Y)  # Display the scrollbar next to the checklist
+checklist.config(yscrollcommand=scrollbar.set)  # Configure the checklist to use the scrollbar
 
 #Insert field
-entry = tk.Entry(window, width=30)
-entry.pack()
-
-
+entry = tk.Entry(window, width=30)  # Create an entry field for additional input
+entry.pack()  # Display the entry field in the window
 
 #Buttons
-add_button = tk.Button(window, text="Add", command=add_item)
-add_button.pack()
+add_button = tk.Button(window, text="Add", command=add_item)  # Create an 'Add' button with a command
+add_button.pack()  # Display the 'Add' button in the window
 
-remove_button = tk.Button(window, text="Remove", command=remove_item)
-remove_button.pack()
+remove_button = tk.Button(window, text="Remove", command=remove_item)  # Create a 'Remove' button with a command
+remove_button.pack()  # Display the 'Remove' button in the window
 
+add_number_button = tk.Button(number_frame, text="Add", command=add_number)  # Create an 'Add' button for numbers
+add_number_button.pack()  # Display the 'Add' button in the number frame
 
-add_number_button = tk.Button(number_frame, text="Add", command=add_number)
-add_number_button.pack()
-
-subtract_number_button = tk.Button(number_frame, text="Subtract", command=subtract_number)
-subtract_number_button.pack()
-
+subtract_number_button = tk.Button(number_frame, text="Subtract", command=subtract_number)  # Create a 'Subtract' button
+subtract_number_button.pack()  # Display the 'Subtract' button in the number frame
 
 #Counter of total items
-count_label = tk.Label(window, text="Total items: 0")
-count_label.pack()
+count_label = tk.Label(window, text="Total items: 0")  # Create a label for total items count
+count_label.pack()  # Display the label in the window
 
-
-window.mainloop()
+window.mainloop()  # Start the GUI event loop
