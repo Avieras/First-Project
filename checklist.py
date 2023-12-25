@@ -1,7 +1,6 @@
 #Phase 1 - UI
     #Create a UI for the checklist, as exe  | 1/2 done
     #-check boxes, entry field, search field, search button, numbers field
-    #-bonus warframe logo
     #Create the checklist,entry possebility
 
 #Phase 2 - LTS
@@ -54,6 +53,7 @@ def subtract_number():
     except ValueError:
         pass
 
+
 def update_count():
     count_label.config(text=f"Total items: {checklist.size()}")
 
@@ -64,6 +64,8 @@ window.title("Checklist")
 #size of window
 window.geometry("500x500")
 
+
+#Phase 2
 label = tk.Label(window, text="Enter wished Item:")
 label.pack()
 
@@ -72,9 +74,12 @@ entry.pack()
 
 button = ttk.Button(window, text="Search", style="Custom.TButton")
 button.pack()
-# Design of a button
-# style = ttk.Style()
-# style.configure("Custom.TButton", foreground="black", font=("Arial", 12))
+#Design of a button
+style = ttk.Style()
+style.configure("Custom.TButton", foreground="black", font=("Arial", 12))
+#_______________________
+
+
 
 frame = tk.Frame(window)
 frame.pack(padx=10, pady=10)
@@ -90,8 +95,10 @@ number_box = tk.Entry(number_frame, width=10)
 number_box.pack()
 number_box.insert(tk.END, str(current_number)) 
 
+#Amount list
 check_box = tk.Listbox(frame, width=5)
 check_box.pack(side=tk.LEFT, fill=tk.Y)
+
 
 #checklist
 checklist = tk.Listbox(frame, width=20)
@@ -106,6 +113,7 @@ checklist.config(yscrollcommand=scrollbar.set)
 #insert field
 entry = tk.Entry(window, width=30)
 entry.pack()
+
 
 
 #buttons
