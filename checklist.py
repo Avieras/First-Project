@@ -16,8 +16,10 @@
 
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox
 
 checklist = []
+checklist2 = []
 current_number = 0
 
 # Function to add an item to the checklist
@@ -35,27 +37,45 @@ def remove_item():
         checklist.delete(index)  # Remove the selected item from the checklist
         update_count()  # Update the count of items
 
-# Function to add a number to the total count
+        
+# Function to add a number to the selected item in checklist 2
 def add_number():
-    global current_number
-    entered_value = number_box.get()
     try:
-        current_number += int(entered_value)  # Add the entered value to the total count
-        check_box.delete(0, tk.END)  # Clear the box
-        check_box.insert(tk.END, str(current_number))  # Display the updated total count
+        selected = checklist2.curselection()  # Get the selected item index
+        if selected:
+            index = selected[0]
+            entered_value = int(entry_number.get())  # Get the number from the entry field
+            current_number = int(checklist2.get(index))  # Get the current number from checklist 2
+            updated_number = current_number + entered_value  # Calculate the updated number
+            checklist2.delete(index)  # Delete the current item from checklist 2
+            checklist2.insert(index, updated_number)  # Insert the updated number at the same index
     except ValueError:
-        pass
+        messagebox.showerror("Error", "Please enter a valid number")  # Show error for invalid input
 
-# Function to subtract a number from the total count
+# Function to subtract a number from the selected item in checklist 2
 def subtract_number():
-    global current_number
-    entered_value = number_box.get()
     try:
-        current_number -= int(entered_value)  # Subtract the entered value from the total count
-        check_box.delete(0, tk.END)  # Clear the box
-        check_box.insert(tk.END, str(current_number))  # Display the updated total count
+        selected = checklist2.curselection()  # Get the selected item index
+        if selected:
+            index = selected[0]
+            entered_value = int(entry_number.get())  # Get the number from the entry field
+            current_number = int(checklist2.get(index))  # Get the current number from checklist 2
+            updated_number = current_number - entered_value  # Calculate the updated number
+            if updated_number < 0:
+                updated_number = 0  # Ensure the number doesn't go below zero
+            checklist2.delete(index)  # Delete the current item from checklist 2
+            checklist2.insert(index, updated_number)  # Insert the updated number at the same index
     except ValueError:
-        pass
+        messagebox.showerror("Error", "Please enter a valid number")  # Show error for invalid input
+
+# Function to add a new number to checklist 2
+def add_item_number():
+    try:
+        entered_value = int(entry_number.get())  # Get the number from the entry field
+        checklist2.insert(tk.END, entered_value)  # Insert the entered number at the end of checklist 2
+    except ValueError:
+        messagebox.showerror("Error", "Please enter a valid number")  # Show error for invalid input
+
 
 # Function to update the count label with the total number of items
 def update_count():
@@ -90,8 +110,8 @@ style.configure("Custom.TButton", foreground="black", font=("Arial", 12))  # Con
 frame = tk.Frame(window)  # Create a frame for layout management
 frame.pack(padx=10, pady=10)  # Display the frame with padding
 
-check_box = tk.Listbox(frame, width=5)  # Create a listbox for displaying numbers
-check_box.pack(side=tk.LEFT, fill=tk.Y)  # Display the listbox within the frame
+checklist2 = tk.Listbox(frame, width=5)  # Create a listbox for displaying numbers
+checklist2.pack(side=tk.LEFT, fill=tk.Y)  # Display the listbox within the frame
 
 number_frame = tk.Frame(window)  # Create a frame for number-related elements
 number_frame.pack(padx=10, pady=20, side="bottom")  # Display the frame with padding at the bottom
@@ -99,11 +119,11 @@ number_frame.pack(padx=10, pady=20, side="bottom")  # Display the frame with pad
 number_label = tk.Label(number_frame, text="Number:")  # Create a label for number entry
 number_label.pack()  # Display the label in the number frame
 
-number_box = tk.Entry(number_frame, width=10)  # Create an entry field for number input
-number_box.pack()  # Display the entry field in the number frame
+entry_number = tk.Entry(number_frame, width=10)  # Create an entry field for number input
+entry_number.pack()  # Display the entry field in the number frame
 
 #Checklist
-checklist = tk.Listbox(frame, width=20)  # Create a listbox for displaying checklist items
+checklist = tk.Listbox(frame, width=50)  # Create a listbox for displaying checklist items
 checklist.pack(side=tk.LEFT, fill=tk.Y)  # Display the listbox within the frame
 
 #Scrollbar for checklist
@@ -122,6 +142,9 @@ add_button.pack()  # Display the 'Add' button in the window
 
 remove_button = tk.Button(window, text="Remove", command=remove_item)  # Create a 'Remove' button with a command
 remove_button.pack()  # Display the 'Remove' button in the window
+
+add_number_item = tk.Button(number_frame,text="Number",command=add_item_number)
+add_number_item.pack()
 
 add_number_button = tk.Button(number_frame, text="Add", command=add_number)  # Create an 'Add' button for numbers
 add_number_button.pack()  # Display the 'Add' button in the number frame
