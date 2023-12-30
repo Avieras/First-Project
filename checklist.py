@@ -1,22 +1,48 @@
-#Phase 1 - UI
-    #Create a UI for the checklist, as exe  | 1/2 done
-    #-check boxes, entry field, search field, search button, numbers field
+#Phase 1 - UI | done
+    #Create a UI for the checklist, as exe  | done
+    #-check boxes, entry field, search field, search button, numbers field | done
+    #Create the checklist,entry possebility | done
 
-    #Create the checklist,entry possebility
-
-#Phase 2 - LTS
+#Phase 2 - LTS | 1/2
     #Save entry for long term use, but make it edable
     #Create a search function
+    #Clean up the damn code
+        #-isolate functions
+        #-structure
 
 #Phase 3 - Data Scraping
     #Create a link to desired website
     #Pull certain data from website
     #Display certain information and picture from website
 
-
+import json
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox
+
+# Save checklist data to JSON
+def save_checklist_data():
+    data_to_save = checklist.get(0, tk.END)  # Get all items in the checklist
+    with open('checklist_data.json', 'w') as file:
+        json.dump(data_to_save, file)
+    index_to_save = checklist2.get(0, tk.END)  # Get all items in the checklist
+    with open('checklist_data_index.json', 'w') as file:
+        json.dump(index_to_save, file)
+
+# Load checklist data from JSON
+def load_checklist_data():
+    try:
+        with open('checklist_data.json', 'r') as file:
+            data = json.load(file)
+            for item in data:
+                checklist.insert(tk.END, item)  # Insert items back into the checklist
+        with open('checklist_data_index.json', 'r') as file:
+            data = json.load(file)
+            for item in data:
+                checklist2.insert(tk.END, item)
+    except FileNotFoundError:
+        pass  # Handle the case where the file doesn't exist (on the first run)
+
 
 checklist = []
 checklist2 = []
@@ -35,6 +61,7 @@ def remove_item():
     if selected:
         index = selected[0]
         checklist.delete(index)  # Remove the selected item from the checklist
+        checklist2.delete(index)
         update_count()  # Update the count of items
 
         
@@ -88,7 +115,7 @@ window = tk.Tk()
 window.title("Checklist")
 
 #Window size
-window.geometry("500x500")
+window.geometry("500x550")
 
 #Phase 2
 
@@ -137,13 +164,13 @@ entry = tk.Entry(window, width=30)  # Create an entry field for additional input
 entry.pack()  # Display the entry field in the window
 
 #Buttons
-add_button = tk.Button(window, text="Add", command=add_item)  # Create an 'Add' button with a command
+add_button = tk.Button(window, text="Add Item", command=add_item)  # Create an 'Add' button with a command
 add_button.pack()  # Display the 'Add' button in the window
 
 remove_button = tk.Button(window, text="Remove", command=remove_item)  # Create a 'Remove' button with a command
 remove_button.pack()  # Display the 'Remove' button in the window
 
-add_number_item = tk.Button(number_frame,text="Number",command=add_item_number)
+add_number_item = tk.Button(number_frame,text="Add Number",command=add_item_number)
 add_number_item.pack()
 
 add_number_button = tk.Button(number_frame, text="Add", command=add_number)  # Create an 'Add' button for numbers
@@ -155,5 +182,13 @@ subtract_number_button.pack()  # Display the 'Subtract' button in the number fra
 #Counter of total items
 count_label = tk.Label(window, text="Total items: 0")  # Create a label for total items count
 count_label.pack()  # Display the label in the window
+
+
+# Load existing data when the application starts
+load_checklist_data()
+
+# Save button to save checklist data
+save_button = tk.Button(window, text="Save", command=save_checklist_data)
+save_button.pack()
 
 window.mainloop()  # Start the GUI event loop
